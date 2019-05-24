@@ -21,7 +21,7 @@ def get_corners(frame_gray):
     corners = corners.reshape(-1, 1, 2)
     return corners
 
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(0) #For playing your own video file, replace '0' with the path of your video
 ret, prev_frame = cap.read()
 prev_frame_gray = cv2.cvtColor(prev_frame, cv2.COLOR_RGB2GRAY)
 prev_corners = get_corners(prev_frame_gray)
@@ -54,11 +54,19 @@ while cap.isOpened():
         mask = np.zeros_like(frame)
         prev_corners = next_corners.copy()
         prev_frame_gray = frame_gray.copy()
-    if count == 10000:
+    elif k == ord('q'):
         ret, prev_frame = cap.read()
         prev_frame_gray = cv2.cvtColor(prev_frame, cv2.COLOR_RGB2GRAY)
         prev_corners = get_corners(prev_frame_gray)
         mask = np.zeros_like(prev_frame)
+        count = 0
+        
+    if count == 1000:
+        ret, prev_frame = cap.read()
+        prev_frame_gray = cv2.cvtColor(prev_frame, cv2.COLOR_RGB2GRAY)
+        prev_corners = get_corners(prev_frame_gray)
+        mask = np.zeros_like(prev_frame)
+        count = 0
     else:
         prev_corners = next_corners.copy()
         prev_frame_gray = frame_gray.copy()
