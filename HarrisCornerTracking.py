@@ -26,7 +26,7 @@ ret, prev_frame = cap.read()
 prev_frame_gray = cv2.cvtColor(prev_frame, cv2.COLOR_RGB2GRAY)
 prev_corners = get_corners(prev_frame_gray)
 mask = np.zeros_like(prev_frame)
-
+count = 0
 while cap.isOpened():
     
     ret, frame = cap.read()
@@ -42,7 +42,8 @@ while cap.isOpened():
         frame = cv2.circle(frame, (x_new, y_new), 8, (0, 0, 255), -1)
         
     img = cv2.add(frame, mask)
-    time.sleep(1/45)
+    #time.sleep(1/45)  used for normal videos, not for web camera streaming
+    count += 1
     cv2.imshow('Tracking Corners', img)
     
     k = cv2.waitKey(1)
@@ -53,7 +54,7 @@ while cap.isOpened():
         mask = np.zeros_like(frame)
         prev_corners = next_corners.copy()
         prev_frame_gray = frame_gray.copy()
-    elif k == ord('q'):
+    if count == 10000:
         ret, prev_frame = cap.read()
         prev_frame_gray = cv2.cvtColor(prev_frame, cv2.COLOR_RGB2GRAY)
         prev_corners = get_corners(prev_frame_gray)
