@@ -71,5 +71,6 @@ while cap.isOpened():
         prev_corners = next_corners.copy()
         prev_frame_gray = frame_gray.copy()
 
+
 cap.release()
 cv2.destroyAllWindows()
