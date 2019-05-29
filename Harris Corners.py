@@ -5,9 +5,10 @@ from scipy import signal
 %matplotlib inline
 
 def create_gaussian_window(window_size):
-    ax, ay = np.meshgrid(np.linspace(-1,1,5), np.linspace(-1,1,5))
+    ax, ay = np.meshgrid(np.linspace(-1,1,window_size), np.linspace(-1,1,window_size))
     ad = np.sqrt(ax*ax+ay*ay)
-    sigma, mu = 1.0, 0.0
+    sigma = 1.0 
+    mu = 0.0
     gaussian_window = np.exp(-( (ad-mu)**2 / ( 2.0 * sigma**2 ) ) )
     return gaussian_window
 
@@ -24,7 +25,7 @@ def findCorners(img_gray, gaussian_window, k, threshold):
     r = det - k*(trace**2)
     cv2.normalize(r, r, 0, 1, cv2.NORM_MINMAX)
     loc = np.where(r > threshold)
-    return loc
+    return loc #tuple
 
 k = 0.05
 threshold = 0.75
